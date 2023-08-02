@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,13 +34,13 @@ CORS_ORIGIN_ALLOW_ALL = True
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders',
     'rest_framework',
     # 'uritemplate',
     'employee.apps.EmployeeConfig',
@@ -139,11 +140,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ]
-} """
+} 
+ """
 
-
-""" CORS_ALLOWED_ORIGINS = [
+CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:8000',
+    'https://127.0.0.1:8000',
     'http://localhost',
+    'https://localhost',
     'http://booking.local',
-] """
+    'https://booking.local',
+]
