@@ -41,6 +41,7 @@ class Employee_RatingCreateAPIView(generics.ListCreateAPIView):
      """
     def get_queryset(self):
         employee_pk = self.kwargs['employee_pk']
+        print(employee_pk)
         return Employee_Rating.objects.filter(employee=employee_pk)
     
     def perform_create(self, serializer):
