@@ -30,3 +30,12 @@ class ServiceEmployeeListCreateAPIView(generics.ListCreateAPIView):
         employee = get_object_or_404(Service, pk=service_pk)
 
         serializer.save(service=employee)
+
+class EmployeeListOfService(generics.ListAPIView):
+    queryset = Service_Employee.objects.all()
+    serializer_class = Service_EmployeeSerializer
+
+    def get_queryset(self):
+        employee_pk = self.kwargs['employee_pk']
+        print(employee_pk)
+        return Service_Employee.objects.filter(employee=employee_pk)
