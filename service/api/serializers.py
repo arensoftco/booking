@@ -3,6 +3,7 @@ from service.models import Service, Service_Employee
 
 
 class Service_EmployeeSerializer(serializers.ModelSerializer):
+    # duration = serializers.IntegerField(duration = Service.duration)
     class Meta:
         model = Service_Employee
         fields = '__all__'        
