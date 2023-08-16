@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from employee.models import Employee, Employee_Rating, Employee_Working_Day_Time
+from rest_framework.validators import UniqueTogetherValidator
 
 
 class Employee_RatingSerializer(serializers.ModelSerializer):
@@ -11,9 +12,15 @@ class Employee_RatingSerializer(serializers.ModelSerializer):
 
 class Employee_Working_Day_TimeSerializer(serializers.ModelSerializer):
     class Meta:
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Employee_Working_Day_Time.objects.all(),
+                fields=['employee','day_number']
+            )
+        ]
         model = Employee_Working_Day_Time
-        # fields = '__all__'        
-        exclude = ['employee']
+        fields = '__all__'        
+        # exclude = ['employee']
 
 
 class EmployeeSerializer(serializers.ModelSerializer):

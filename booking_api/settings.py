@@ -92,7 +92,6 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -128,6 +127,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = 'uploads'
 print (BASE_DIR)
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
@@ -152,3 +153,4 @@ CORS_ALLOWED_ORIGINS = [
     'http://booking.local',
     'https://booking.local',
 ]
+

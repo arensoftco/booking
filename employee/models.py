@@ -1,21 +1,36 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.auth.models import User
+from PIL import Image
 # from service.models import Service
 
 # Create your models here.
 class Employee(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profil')
     first_name = models.CharField(max_length=120)
     last_name = models.CharField(max_length=120)
     phone_nunber = models.CharField(max_length=12)
     address = models.TextField(blank=True)
     job_start_date = models.DateField(null=True, blank=True)
     email_address = models.CharField(max_length=200, blank=True)
+    photo = models.ImageField(null=True, blank=True, upload_to='profile_photos')
+    active = models.BooleanField(default=True)
 
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.user.username} {self.first_name} {self.last_name}'
+    
+    def save(self, *args, **kwargs):
+        ## IMAGE RESIZE
+        super().save(*args, **kwargs)
+        if self.photo:
+            img = Image.open(self.photo.path)
+            if img.height > 600 or img.width > 600:
+                output_size = (600,600)
+                img.thumbnail(output_size)
+                img.save(self.photo.path)
 
 
 class Employee_Rating(models.Model):
