@@ -1,15 +1,50 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
+from phonenumber_field.modelfields import PhoneNumberField
+from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import BaseUserManager
 from PIL import Image
-# from service.models import Service
+from django.utils.translation import ugettext_lazy as _
 
-# Create your models here.
+class CustomUserManager(BaseUserManager):
+    def create_user(self, phone_number, password, **extra_fields):
+        if not phone_number:
+            raise ValueError(_('The Phone Number must be set'))
+        
+        user = self.model(phone_number=phone_number, **extra_fields)
+        user.set_password(password)
+        user.save()
+        return user
+    
+    def create_superuser(self, phone_number, password, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_active', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError(_('Superuser must have is_staff=True'))
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError(_('Superuser must have is_super_user=True'))
+        return self.create_superuser(phone_number, password, **extra_fields)
+        
+
+class CustomUser(AbstractUser):
+    username = None
+    phone_number = PhoneNumberField(null=False, blank=False, unique=True)
+
+    USERNAME_FIELD = 'phone_number'
+    REQUIRED_FIELDS = []
+
+    objects = CustomUserManager
+
+    def __str__(self):
+        return self.phone_number
+
 class Employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profil')
     first_name = models.CharField(max_length=120)
     last_name = models.CharField(max_length=120)
-    phone_nunber = models.CharField(max_length=12)
     address = models.TextField(blank=True)
     job_start_date = models.DateField(null=True, blank=True)
     email_address = models.CharField(max_length=200, blank=True)

@@ -42,10 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
-    # 'uritemplate',
+    'uritemplate',
     'employee.apps.EmployeeConfig',
     'service.apps.ServiceConfig',
-    'appointment.apps.AppointmentConfig'
+    'appointment.apps.AppointmentConfig',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [

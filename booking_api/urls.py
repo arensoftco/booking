@@ -26,7 +26,7 @@ urlpatterns = [
     path('api/', include('service.api.urls')),
     path('api/', include('appointment.api.urls')),
     path('api-auth/', include('rest_framework.urls')),
-    path('openapi', get_schema_view(
+    path('openapi/', get_schema_view(
         title="Randevu Takip Sistemi",
         description="Randevu Takip Sistemi API Dokümanı",
         version="1.0.0"
